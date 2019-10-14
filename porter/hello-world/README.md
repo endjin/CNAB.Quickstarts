@@ -1,6 +1,6 @@
 # An example Porter configuration
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fendjin%2FCNAB.Quickstarts%2Fhello-world-quickstart%2Fporter%2Fhello-world%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fendjin%2FCNAB.Quickstarts%2Fmaster%2Fporter%2Fhello-world%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
 
 Here are some instructions for 'Hello world' bundle.
 
