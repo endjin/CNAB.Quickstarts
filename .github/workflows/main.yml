@@ -98,7 +98,7 @@ jobs:
         with:
           bundle_dir: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}
           
-      - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && github.event_name == 'pull_request'
+      - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true'
         name: Generate ARM template
         id: generate_arm_template
         uses: endjin/CNAB.ARM-Converter.GitHub.Actions/run-cnab-to-arm-tool@master
@@ -106,7 +106,7 @@ jobs:
           bundle_path: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/.cnab/bundle.json
           output_path: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/azuredeploy.json
           
-      - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && github.event_name == 'pull_request'
+      - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true'
         name: Generate readme
         id: generate_readme
         uses: endjin/CNAB.ARM-Converter.GitHub.Actions/generate-readme@master
@@ -116,7 +116,7 @@ jobs:
           template_uri: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref }}/${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/azuredeploy.json
           output_path: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/README.md
 
-      - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && github.event_name == 'pull_request'
+      - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true'
         name: Commit & push ARM template & readme if updated
         uses: endjin/git-auto-commit-action@master
         with:
