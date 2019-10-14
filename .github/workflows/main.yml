@@ -22,7 +22,6 @@ jobs:
 
       - name: '[WORKAROUND] Fetch required tags for GitVersion'
         run: |
-          git fetch --unshallow
           git fetch --tags
           git branch --create-reflog master origin/master
 
