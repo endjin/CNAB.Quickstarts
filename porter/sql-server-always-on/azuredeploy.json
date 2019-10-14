@@ -197,14 +197,6 @@
 									"value": "[parameters('location')]"
 								},
 								{
-									"name": "AZURE_CLIENT_ID",
-									"secureValue": "[parameters('azure_client_id')]"
-								},
-								{
-									"name": "AZURE_CLIENT_SECRET",
-									"secureValue": "[parameters('azure_client_secret')]"
-								},
-								{
 									"name": "AZURE_SUBSCRIPTION_ID",
 									"value": "[subscription().subscriptionId]"
 								},
@@ -219,6 +211,14 @@
 								{
 									"name": "SQL_SAPASSWORD",
 									"secureValue": "[parameters('sql_sapassword')]"
+								},
+								{
+									"name": "AZURE_CLIENT_ID",
+									"secureValue": "[parameters('azure_client_id')]"
+								},
+								{
+									"name": "AZURE_CLIENT_SECRET",
+									"secureValue": "[parameters('azure_client_secret')]"
 								}
 							]
 						}

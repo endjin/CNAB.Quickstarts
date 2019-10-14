@@ -1,6 +1,6 @@
 # SQL Server Always On for AKS
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fendjin%2FCNAB.Quickstarts%2Fpr-test-3%2Fporter%2Fsql-server-always-on%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fendjin%2FCNAB.Quickstarts%2Fpr-test-4%2Fporter%2Fsql-server-always-on%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
 
 This Bundle installs a SQL Server always on availability group on a new AKS Cluster, on install it will:
 
