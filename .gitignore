@@ -3,4 +3,4 @@
 **/bundle.json
 **/azuredeploy.**.parameters.json
 .vs/**/*
-**/gitversion.yml
+**/GitVersion.yml
