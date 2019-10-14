@@ -164,4 +164,3 @@ uninstall:
         - "--name" 
         - "{{ bundle.parameters.aks_resource_group }}"
         - "--yes"
-        
