@@ -197,18 +197,6 @@
 									"value": "[parameters('location')]"
 								},
 								{
-									"name": "AZURE_TENANT_ID",
-									"value": "[subscription().tenantId]"
-								},
-								{
-									"name": "SQL_MASTERKEYPASSWORD",
-									"secureValue": "[parameters('sql_masterkeypassword')]"
-								},
-								{
-									"name": "SQL_SAPASSWORD",
-									"secureValue": "[parameters('sql_sapassword')]"
-								},
-								{
 									"name": "AZURE_CLIENT_ID",
 									"secureValue": "[parameters('azure_client_id')]"
 								},
@@ -219,6 +207,18 @@
 								{
 									"name": "AZURE_SUBSCRIPTION_ID",
 									"value": "[subscription().subscriptionId]"
+								},
+								{
+									"name": "AZURE_TENANT_ID",
+									"value": "[subscription().tenantId]"
+								},
+								{
+									"name": "SQL_MASTERKEYPASSWORD",
+									"secureValue": "[parameters('sql_masterkeypassword')]"
+								},
+								{
+									"name": "SQL_SAPASSWORD",
+									"secureValue": "[parameters('sql_sapassword')]"
 								}
 							]
 						}
