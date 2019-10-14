@@ -63,8 +63,8 @@ jobs:
         uses: endjin/CNAB.Quickstarts.GitHub.Actions/replace-version-and-registry@master
         with:
           manifest_path: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/porter.yaml
-          version: ${{ steps.calculate_version.outputs.full_sem_ver }}
-          tag: ${{ steps.calculate_version.outputs.full_sem_ver }}
+          version: ${{ steps.calculate_version.outputs.major_minor_patch }}
+          tag: ${{ steps.calculate_version.outputs.major_minor_patch }}
           registry: ${{ secrets.REGISTRY_SERVER }}
 
       - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter'
