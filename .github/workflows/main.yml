@@ -80,6 +80,23 @@ jobs:
         uses: endjin/CNAB.Quickstarts.GitHub.Actions/publish-porter-bundle@master
         with:
           bundle_dir: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}
+
+      - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter' && github.event_name == 'push'
+        name: Replace tag with 'latest'
+        id: replace_tag_with_latest
+        uses: endjin/CNAB.Quickstarts.GitHub.Actions/replace-version-and-registry@master
+        with:
+          manifest_path: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/porter.yaml
+          version: ${{ steps.calculate_version.outputs.nuget_version_v2 }}
+          tag: 'latest'
+          registry: ${{ secrets.REGISTRY_SERVER }}
+
+      - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter' && github.event_name == 'push'
+        name: Publish 'latest' Porter bundle
+        id: publish_latest_porter_bundle
+        uses: endjin/CNAB.Quickstarts.GitHub.Actions/publish-porter-bundle@master
+        with:
+          bundle_dir: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}
           
       - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && github.event_name == 'pull_request'
         name: Generate ARM template
