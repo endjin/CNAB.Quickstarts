@@ -25,6 +25,10 @@ jobs:
           git fetch --tags
           git branch --create-reflog master origin/master
 
+      - name: '[WORKAROUND] Get branch name'
+        id: get_branch_name
+        uses: endjin/CNAB.Quickstarts.GitHub.Actions/get-branch-name@master
+
       - name: Validate & detect quickstart solution changes
         id: validate_and_detect_qs_changes
         uses: endjin/CNAB.Quickstarts.GitHub.Actions/validate-and-detect-quickstart-changes@master
@@ -110,7 +114,7 @@ jobs:
         with:
           bundle_metadata_path: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/.cnab/bundle.json
           instructions_path: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/INSTRUCTIONS.md
-          template_uri: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref }}/${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/azuredeploy.json
+          template_uri: https://raw.githubusercontent.com/${{ github.repository }}/${{ steps.get_branch_name.outputs.branch_name }}/${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/azuredeploy.json
           output_path: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/README.md
 
       - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true'
@@ -119,6 +123,6 @@ jobs:
         with:
           add_path_spec: '${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/README.md ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/azuredeploy.json'
           commit_message: "Update ARM template / readme for bundle '${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}'"
-          branch: ${{ github.head_ref || github.ref }}
+          branch: ${{ steps.get_branch_name.outputs.branch_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
