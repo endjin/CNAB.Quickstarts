@@ -1,9 +1,9 @@
 name: sql-server-always-on
-version: 0.1.2
+version: 0.2.0
 description: "SQL Server Always On for AKS"
 dockerfile: cnab/app/Dockerfile.base
-invocationImage: cnabquickstarts.azurecr.io/porter/sql-server-always-on:0.1.2
-tag: cnabquickstarts.azurecr.io/porter/sql-server-always-on:0.1.2
+invocationImage: cnabquickstarts.azurecr.io/porter/sql-server-always-on:0.2.0
+tag: cnabquickstarts.azurecr.io/porter/sql-server-always-on:0.2.0
 
 credentials:
 - name: azure_client_id
