@@ -59,13 +59,19 @@ jobs:
           CONTENTS="next-version: ${{ steps.parse_porter_manifest.outputs.version }}"
           echo "Writing temporary Gitversion config file with contents '$CONTENTS' to path '${GITVERSION_CONFIG_PATH}'"
           echo $CONTENTS > $GITVERSION_CONFIG_PATH
-        
-      - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter'
-        name: Set GitVersion
-        id: set_gitversion
+
+      - name: Set GitVersion file
         uses: docker://gittools/gitversion:5.0.2-linux
         with:
-          args: '-nocache -output buildserver -exec /bin/bash -execargs "-c \"echo ::set-output name=fullsemver::$GitVersion_FullSemVer\""'
+          args: '-nocache -output buildserver -exec /bin/bash -execargs "-c \"echo $GitVersion_FullSemVer > /github/workspace/version.txt\""'
+
+      - name: Set GitVersion
+        id: set_gitversion
+        run: |
+          FULLSEMVER=$(cat version.txt)
+          echo ::set-env name=fullsemver::$FULLSEMVER
+          echo ::set-output name=fullsemver::$FULLSEMVER
+
 
       - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter'
         name: Install Porter
