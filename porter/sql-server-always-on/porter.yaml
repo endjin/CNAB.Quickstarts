@@ -75,6 +75,7 @@ install:
         - "{{ bundle.credentials.azure_client_secret}}"
         - "--tenant" 
         - "{{ bundle.credentials.azure_tenant_id}}"
+        
   - exec: 
       description: "Azure set subscription Id"
       command: "az"
