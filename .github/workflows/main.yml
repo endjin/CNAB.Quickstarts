@@ -72,18 +72,10 @@ jobs:
           echo ::set-env name=fullsemver::$FULLSEMVER
           echo ::set-output name=fullsemver::$FULLSEMVER
 
-
       - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter'
         name: Install Porter
         id: install_porter
         uses: endjin/CNAB.Quickstarts.GitHub.Actions/install-porter@master
-
-      - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter'
-        name: Build Porter bundle
-        id: build_porter_bundle
-        uses: endjin/CNAB.Quickstarts.GitHub.Actions/build-porter-bundle@master
-        with:
-          bundle_dir: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}
 
       - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter'
         name: Replace version and registry for bundle
@@ -94,6 +86,13 @@ jobs:
           version: ${{ steps.set_gitversion.fullsemver }}
           tag: ${{ steps.set_gitversion.fullsemver }}
           registry: ${{ secrets.REGISTRY_SERVER }}
+
+      - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter'
+        name: Build Porter bundle
+        id: build_porter_bundle
+        uses: endjin/CNAB.Quickstarts.GitHub.Actions/build-porter-bundle@master
+        with:
+          bundle_dir: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}
 
       - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter'
         name: Publish Porter bundle
