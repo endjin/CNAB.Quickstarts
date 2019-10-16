@@ -57,7 +57,7 @@ echo Installed "Oras: $("${TOOLHOME}/oras" version)"
 # Download script for generating credential and parameter files
 
 CNAB_QUICKSTARTS_REPO="${CNAB_QUICKSTARTS_REPO:-endjin/CNAB.Quickstarts}"
-CNAB_QUICKSTARTS_REPO_BRANCH="${CNAB_QUICKSTARTS_REPO:-master}"
+CNAB_QUICKSTARTS_REPO_BRANCH="${CNAB_QUICKSTARTS_REPO_BRANCH:-master}"
 
 echo "Downloading Script to generate credential and parameter files (https://raw.githubusercontent.com/${CNAB_QUICKSTARTS_REPO}/${CNAB_QUICKSTARTS_REPO_BRANCH}/client/generate-cnab-param-and-cred-files.sh) to ${TOOLHOME}"
 curl "https://raw.githubusercontent.com/${CNAB_QUICKSTARTS_REPO}/${CNAB_QUICKSTARTS_REPO_BRANCH}/client/generate-cnab-param-and-cred-files.sh" -fLo "${TOOLHOME}/generate-cnab-param-and-cred-files.sh"
