@@ -22,7 +22,7 @@ cd <quickstart-name>
 ### 2. Download the bundle metadata using ORAS
 
 ```
-oras pull cnabquickstarts.azurecr.io/porter/<quickstart-name>:<quickstart-version>
+oras pull cnabquickstarts.azurecr.io/porter/<quickstart-name>/bundle:<quickstart-version>
 ```
 
 ### 3. Set up the default parameters and credentials

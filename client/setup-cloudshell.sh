@@ -44,7 +44,7 @@ echo "Installed cnab-azure-driver"
 
 # Install ORAS
 
-ORAS_VERSION="${ORAS_VERSION:-0.5.0}"
+ORAS_VERSION="${ORAS_VERSION:-0.7.0}"
 ORAS_REPO="${ORAS_REPO:-deislabs/oras}"
 ORAS_DOWNLOAD_DIR=/tmp
 
