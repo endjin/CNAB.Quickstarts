@@ -42,18 +42,6 @@ curl "https://github.com/${CNAB_AZURE_DRIVER_REPO}/releases/download/${CNAB_AZUR
 chmod +x "${TOOLHOME}/cnab-azure-driver"
 echo "Installed cnab-azure-driver"
 
-# Install ORAS
-
-ORAS_VERSION="${ORAS_VERSION:-0.7.0}"
-ORAS_REPO="${ORAS_REPO:-deislabs/oras}"
-ORAS_DOWNLOAD_DIR=/tmp
-
-echo "Installing oras (https://github.com/${ORAS_REPO}/releases/download/v${ORAS_VERSION}/oras_${ORAS_VERSION}_linux_amd64.tar.gz) to ${TOOLHOME}"
-curl https://github.com/${ORAS_REPO}/releases/download/v${ORAS_VERSION}/oras_${ORAS_VERSION}_linux_amd64.tar.gz -fLo "${ORAS_DOWNLOAD_DIR}/oras_${ORAS_VERSION}_linux_amd64.tar.gz"
-tar -zxf "${ORAS_DOWNLOAD_DIR}/oras_${ORAS_VERSION}_linux_amd64.tar.gz" -C "${TOOLHOME}"
-chmod +x "${TOOLHOME}/oras"
-echo Installed "Oras: $("${TOOLHOME}/oras" version)"
-
 # Download script for generating credential and parameter files
 
 CNAB_QUICKSTARTS_REPO="${CNAB_QUICKSTARTS_REPO:-endjin/CNAB.Quickstarts}"
