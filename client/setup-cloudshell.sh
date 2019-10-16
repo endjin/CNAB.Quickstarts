@@ -8,7 +8,7 @@ TOOLHOME="${HOME}/bin/cnabquickstarts"
 # set up local folder for programs and update path
 
 if [ ! -d  "${TOOLHOME}" ]; then 
-    mkdir "${TOOLHOME}"  
+    mkdir -p "${TOOLHOME}"  
     if [ -f "${HOME}/.bashrc" ]; then
         echo "" >> "${HOME}/.bashrc"
         echo "#START UPDATING PATH FOR CNAB QUICKSTARTS" >> "${HOME}/.bashrc"
