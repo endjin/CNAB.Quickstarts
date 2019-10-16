@@ -35,7 +35,7 @@ echo Installed "Porter: $("${TOOLHOME}/porter" version)"
 # Install CNAB Azure Driver
 
 CNAB_AZURE_DRIVER_VERSION="${CNAB_AZURE_DRIVER_VERSION:-v.0.0.3}"
-CNAB_AZURE_DRIVER_REPO="${CNAB_AZURE_DRIVER_REPO:-simongdavies/duffle-aci-driver}"
+CNAB_AZURE_DRIVER_REPO="${CNAB_AZURE_DRIVER_REPO:-simongdavies/cnab-azure-driver}"
 
 echo "Installing cnab-azure-driver (https://github.com/${CNAB_AZURE_DRIVER_REPO}/releases/download/${CNAB_AZURE_DRIVER_VERSION}/cnab-azure-driver-linux-amd64) to ${TOOLHOME}"
 curl "https://github.com/${CNAB_AZURE_DRIVER_REPO}/releases/download/${CNAB_AZURE_DRIVER_VERSION}/cnab-azure-driver-linux-amd64" -fLo "${TOOLHOME}/cnab-azure-driver"
