@@ -12,28 +12,21 @@ This will install Porter and the CNAB Azure Driver, which allows Cloud Shell to 
 
 Once setup is complete, you can install Quickstarts by using the following steps:
 
-### 1. Create a new directory for the Quickstart and navigate to it
+### 1. View bundle credentials/parameters
 
 ```
-mkdir <quickstart-name>
-cd <quickstart-name>
+porter explain --tag cnabquickstarts.azurecr.io/porter/<quickstart-name>/bundle:<quickstart-version>
 ```
 
-### 2. Download the bundle metadata using `porter explain`
+### 2. Set up credentials, if required
 
 ```
-porter explain -t cnabquickstarts.azurecr.io/porter/<quickstart-name>/bundle:<quickstart-version> -o json > bundle.json
+porter credentials generate --tag cnabquickstarts.azurecr.io/porter/<quickstart-name>/bundle:<quickstart-version>
 ```
 
-### 3. Set up the default parameters and credentials
+### 3. Run the install command
 
 ```
-generate-cnab-param-and-cred-files.sh -f
-```
-
-### 4. Run the install command
-
-```
-porter install <instance> --tag cnabquickstarts.azurecr.io/porter/<quickstart-name>:<quickstart-version> -d azure --param-file parameters.toml --cred credentials.yaml
+porter install --tag cnabquickstarts.azurecr.io/porter/<quickstart-name>:<quickstart-version> -d azure --param <param1>=<param1value> --param <param2>=<param2value> ...
 ```
 

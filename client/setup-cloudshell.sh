@@ -37,10 +37,10 @@ echo Installed "Porter: $("${TOOLHOME}/porter" version)"
 CNAB_AZURE_DRIVER_VERSION="${CNAB_AZURE_DRIVER_VERSION:-v.0.0.3}"
 CNAB_AZURE_DRIVER_REPO="${CNAB_AZURE_DRIVER_REPO:-simongdavies/cnab-azure-driver}"
 
-echo "Installing cnab-azure-driver (https://github.com/${CNAB_AZURE_DRIVER_REPO}/releases/download/${CNAB_AZURE_DRIVER_VERSION}/cnab-azure-linux-amd64) to ${TOOLHOME}"
-curl "https://github.com/${CNAB_AZURE_DRIVER_REPO}/releases/download/${CNAB_AZURE_DRIVER_VERSION}/cnab-azure-linux-amd64" -fLo "${TOOLHOME}/cnab-azure-driver"
-chmod +x "${TOOLHOME}/cnab-azure-driver"
-echo "Installed cnab-azure-driver"
+echo "Installing cnab-azure driver (https://github.com/${CNAB_AZURE_DRIVER_REPO}/releases/download/${CNAB_AZURE_DRIVER_VERSION}/cnab-azure-linux-amd64) to ${TOOLHOME}"
+curl "https://github.com/${CNAB_AZURE_DRIVER_REPO}/releases/download/${CNAB_AZURE_DRIVER_VERSION}/cnab-azure-linux-amd64" -fLo "${TOOLHOME}/cnab-azure"
+chmod +x "${TOOLHOME}/cnab-azure"
+echo "Installed cnab-azure driver"
 
 # Download script for generating credential and parameter files
 
