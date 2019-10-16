@@ -48,7 +48,7 @@ ORAS_VERSION="${ORAS_VERSION:-0.5.0}"
 ORAS_REPO="${ORAS_REPO:-deislabs/oras}"
 ORAS_DOWNLOAD_DIR=/tmp
 
-echo "Installing oras"
+echo "Installing oras (https://github.com/${ORAS_REPO}/releases/download/v${ORAS_VERSION}/oras_${ORAS_VERSION}_linux_amd64.tar.gz) to ${TOOLHOME}"
 curl https://github.com/${ORAS_REPO}/releases/download/v${ORAS_VERSION}/oras_${ORAS_VERSION}_linux_amd64.tar.gz -fLo "${ORAS_DOWNLOAD_DIR}/oras_${ORAS_VERSION}_linux_amd64.tar.gz"
 tar -zxf "${ORAS_DOWNLOAD_DIR}/oras_0.5.0_linux_amd64.tar.gz" -C "${TOOLHOME}"
 chmod +x "${TOOLHOME}/oras"
@@ -59,7 +59,7 @@ echo Installed "Oras: $("${TOOLHOME}/oras" version)"
 CNAB_QUICKSTARTS_REPO="${CNAB_QUICKSTARTS_REPO:-endjin/CNAB.Quickstarts}"
 CNAB_QUICKSTARTS_REPO_BRANCH="${CNAB_QUICKSTARTS_REPO:-master}"
 
-echo "Downloading Script to generate credential and parameter files"
+echo "Downloading Script to generate credential and parameter files (https://raw.githubusercontent.com/${CNAB_QUICKSTARTS_REPO}/${CNAB_QUICKSTARTS_REPO_BRANCH}/client/generate-cnab-param-and-cred-files.sh) to ${TOOLHOME}"
 curl "https://raw.githubusercontent.com/${CNAB_QUICKSTARTS_REPO}/${CNAB_QUICKSTARTS_REPO_BRANCH}/client/generate-cnab-param-and-cred-files.sh" -fLo "${TOOLHOME}/generate-cnab-param-and-cred-files.sh"
 chmod +x "${TOOLHOME}/generate-cnab-param-and-cred-files.sh"
 echo "Downloaded Script"
