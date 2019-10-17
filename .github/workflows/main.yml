@@ -57,6 +57,8 @@ jobs:
         name: Install latest version of Porter
         id: install_porter
         uses: endjin/CNAB.Quickstarts.GitHub.Actions/install-porter@master
+        with:
+          porter_version: v0.17.1-beta.1
 
       - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter'
         name: Patch version and registry for bundle and invocation image
