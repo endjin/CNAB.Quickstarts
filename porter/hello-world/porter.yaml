@@ -9,16 +9,42 @@ description: "An example Porter configuration"
 invocationImage: cnabquickstarts.azurecr.io/porter/hello-world:1.0.0
 tag: cnabquickstarts.azurecr.io/porter/hello-world/bundle:1.0.0
 
-# Uncomment out the line below to use a template Dockerfile for your invocation image
-#dockerfile: Dockerfile.tmpl
+credentials:
+- name: password
+  env: PASSWORD
+  description: A secret password
+  required: false
 
 parameters:
 - name: person
   type: string
   default: mike
+  minLength: 1
+  maxLength: 20
   description: The name of the person to say hello to
   destination:
     env: PERSON
+- name: age
+  type: integer
+  default: 29
+  minimum: 0
+  maximum: 150
+  description: The age of the person
+  destination:
+    env: AGE
+- name: retirement_age
+  type: integer
+  exclusiveMinimum: 55
+  exclusiveMaximum: 75
+  description: The retirement age of the person
+  destination:
+    env: RETIREMENT_AGE
+- name: place_of_birth
+  type: string
+  enum: ["UK", "USA"]
+  description: The person's place of birth
+  destination:
+    env: PLACE_OF_BIRTH
 
 
 mixins:
@@ -44,16 +70,3 @@ uninstall:
       command: bash
       flags:
         c: echo Goodbye World
-
-
-# See https://porter.sh/authoring-bundles/#dependencies
-#dependencies:
-#  mysql:
-#    tag: deislabs/porter-mysql:latest
-#    parameters:
-#      database-name: wordpress
-
-# See https://porter.sh/wiring/#credentials
-#credentials:
-#  - name: kubeconfig
-#    path: /root/.kube/config
