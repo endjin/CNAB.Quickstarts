@@ -13,5 +13,9 @@ We can include markdown in here like
 
  | Name | Description | 
  | --- | --- | 
- | person | The name of the person to say hello to
-porter-debug | Print debug information from Porter when executing the bundle | 
+ | age | The age of the person
+password | A secret password
+person | The name of the person to say hello to
+place_of_birth | The person's place of birth
+porter-debug | Print debug information from Porter when executing the bundle
+retirement_age | The retirement age of the person | 
