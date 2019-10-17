@@ -3,18 +3,30 @@
 	"contentVersion": "1.0.0.0",
 	"parameters": {
 		"aks_cluster_name": {
-			"type": "",
-			"metadata": {}
+			"type": "string",
+			"defaultValue": "sql-server-aks",
+			"metadata": {
+				"description": "The name to use for the AKS Cluster"
+			}
 		},
 		"aks_resource_group": {
-			"type": "",
-			"metadata": {}
+			"type": "string",
+			"defaultValue": "sql-server-always-on",
+			"metadata": {
+				"description": "The name of the resource group to create the AKS Cluster in"
+			}
 		},
 		"azure_client_id": {
-			"type": "securestring"
+			"type": "securestring",
+			"metadata": {
+				"description": "AAD Client ID for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig - also if using ACI Driver  its used to authenticate to Azure for ACI creation to run bundle"
+			}
 		},
 		"azure_client_secret": {
-			"type": "securestring"
+			"type": "securestring",
+			"metadata": {
+				"description": "AAD Client Secret for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig - also if using ACI Driver  its used to authenticate to Azure for ACI creation to run bundle"
+			}
 		},
 		"cnab_action": {
 			"type": "string",
@@ -99,10 +111,16 @@
 			}
 		},
 		"sql_masterkeypassword": {
-			"type": "securestring"
+			"type": "securestring",
+			"metadata": {
+				"description": "The Password for the SQL Server Master Key"
+			}
 		},
 		"sql_sapassword": {
-			"type": "securestring"
+			"type": "securestring",
+			"metadata": {
+				"description": "The Password for the sa user in SQL Server"
+			}
 		}
 	},
 	"resources": [
@@ -197,6 +215,14 @@
 									"value": "[parameters('location')]"
 								},
 								{
+									"name": "AZURE_CLIENT_ID",
+									"secureValue": "[parameters('azure_client_id')]"
+								},
+								{
+									"name": "AZURE_CLIENT_SECRET",
+									"secureValue": "[parameters('azure_client_secret')]"
+								},
+								{
 									"name": "AZURE_SUBSCRIPTION_ID",
 									"value": "[subscription().subscriptionId]"
 								},
@@ -211,14 +237,6 @@
 								{
 									"name": "SQL_SAPASSWORD",
 									"secureValue": "[parameters('sql_sapassword')]"
-								},
-								{
-									"name": "AZURE_CLIENT_ID",
-									"secureValue": "[parameters('azure_client_id')]"
-								},
-								{
-									"name": "AZURE_CLIENT_SECRET",
-									"secureValue": "[parameters('azure_client_secret')]"
 								}
 							]
 						}
