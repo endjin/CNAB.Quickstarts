@@ -3,8 +3,13 @@
 	"contentVersion": "1.0.0.0",
 	"parameters": {
 		"age": {
-			"type": "",
-			"metadata": {}
+			"type": "int",
+			"defaultValue": 29,
+			"metadata": {
+				"description": "The age of the person"
+			},
+			"minValue": 0,
+			"maxValue": 150
 		},
 		"cnab_action": {
 			"type": "string",
@@ -89,19 +94,38 @@
 			}
 		},
 		"password": {
-			"type": "securestring"
+			"type": "securestring",
+			"defaultValue": "",
+			"metadata": {
+				"description": "A secret password"
+			}
 		},
 		"person": {
-			"type": "",
-			"metadata": {}
+			"type": "string",
+			"defaultValue": "mike",
+			"metadata": {
+				"description": "The name of the person to say hello to"
+			},
+			"minLength": 1,
+			"maxLength": 20
 		},
 		"place_of_birth": {
-			"type": "",
-			"metadata": {}
+			"type": "string",
+			"allowedValues": [
+				"UK",
+				"USA"
+			],
+			"metadata": {
+				"description": "The person's place of birth"
+			}
 		},
 		"retirement_age": {
-			"type": "",
-			"metadata": {}
+			"type": "int",
+			"metadata": {
+				"description": "The retirement age of the person"
+			},
+			"minValue": 56,
+			"maxValue": 74
 		}
 	},
 	"resources": [
@@ -184,6 +208,10 @@
 									"value": "cnabquickstarts.azurecr.io/porter/hello-world"
 								},
 								{
+									"name": "AGE",
+									"value": "[parameters('age')]"
+								},
+								{
 									"name": "PERSON",
 									"value": "[parameters('person')]"
 								},
@@ -194,10 +222,6 @@
 								{
 									"name": "RETIREMENT_AGE",
 									"value": "[parameters('retirement_age')]"
-								},
-								{
-									"name": "AGE",
-									"value": "[parameters('age')]"
 								},
 								{
 									"name": "PASSWORD",
