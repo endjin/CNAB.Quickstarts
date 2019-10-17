@@ -2,6 +2,10 @@
 	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
 	"contentVersion": "1.0.0.0",
 	"parameters": {
+		"age": {
+			"type": "",
+			"metadata": {}
+		},
 		"cnab_action": {
 			"type": "string",
 			"defaultValue": "install",
@@ -84,7 +88,18 @@
 				"description": "The location in which the resources will be created."
 			}
 		},
+		"password": {
+			"type": "securestring"
+		},
 		"person": {
+			"type": "",
+			"metadata": {}
+		},
+		"place_of_birth": {
+			"type": "",
+			"metadata": {}
+		},
+		"retirement_age": {
 			"type": "",
 			"metadata": {}
 		}
@@ -171,6 +186,22 @@
 								{
 									"name": "PERSON",
 									"value": "[parameters('person')]"
+								},
+								{
+									"name": "PLACE_OF_BIRTH",
+									"value": "[parameters('place_of_birth')]"
+								},
+								{
+									"name": "RETIREMENT_AGE",
+									"value": "[parameters('retirement_age')]"
+								},
+								{
+									"name": "AGE",
+									"value": "[parameters('age')]"
+								},
+								{
+									"name": "PASSWORD",
+									"secureValue": "[parameters('password')]"
 								}
 							]
 						}
