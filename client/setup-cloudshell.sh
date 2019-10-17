@@ -24,7 +24,7 @@ fi
 # Install Porter
  
 PORTER_URL="${PORTER_URL:-https://cdn.deislabs.io/porter}"
-PORTER_VERSION="${PORTER_VERSION:-latest}"
+PORTER_VERSION="${PORTER_VERSION:-v0.17.1-beta.1}"
 
 echo "Installing porter (${PORTER_URL}/${PORTER_VERSION}/porter-linux-amd64) to ${TOOLHOME}"
 curl "${PORTER_URL}/${PORTER_VERSION}/porter-linux-amd64" -fLo "${TOOLHOME}/porter"

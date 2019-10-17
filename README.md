@@ -24,9 +24,11 @@ porter explain --tag cnabquickstarts.azurecr.io/porter/<quickstart-name>/bundle:
 porter credentials generate --tag cnabquickstarts.azurecr.io/porter/<quickstart-name>/bundle:<quickstart-version>
 ```
 
+This will output the path to the credentials file generated.
+
 ### 3. Run the install command
 
 ```
-porter install --tag cnabquickstarts.azurecr.io/porter/<quickstart-name>:<quickstart-version> -d azure --param <param1>=<param1value> --param <param2>=<param2value> ...
+porter install --tag cnabquickstarts.azurecr.io/porter/<quickstart-name>:<quickstart-version> --cred <path-to-creds-file> -d azure --param <param1>=<param1value> --param <param2>=<param2value> ...
 ```
 
