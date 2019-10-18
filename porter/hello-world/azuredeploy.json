@@ -2,31 +2,14 @@
 	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
 	"contentVersion": "1.0.0.0",
 	"parameters": {
-		"aks_cluster_name": {
-			"type": "string",
-			"defaultValue": "sql-server-aks",
+		"age": {
+			"type": "int",
+			"defaultValue": 29,
 			"metadata": {
-				"description": "The name to use for the AKS Cluster"
-			}
-		},
-		"aks_resource_group": {
-			"type": "string",
-			"defaultValue": "sql-server-always-on",
-			"metadata": {
-				"description": "The name of the resource group to create the AKS Cluster in"
-			}
-		},
-		"azure_client_id": {
-			"type": "securestring",
-			"metadata": {
-				"description": "AAD Client ID for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig - also if using ACI Driver  its used to authenticate to Azure for ACI creation to run bundle"
-			}
-		},
-		"azure_client_secret": {
-			"type": "securestring",
-			"metadata": {
-				"description": "AAD Client Secret for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig - also if using ACI Driver  its used to authenticate to Azure for ACI creation to run bundle"
-			}
+				"description": "The age of the person"
+			},
+			"minValue": 0,
+			"maxValue": 150
 		},
 		"cnab_action": {
 			"type": "string",
@@ -37,7 +20,7 @@
 		},
 		"cnab_installation_name": {
 			"type": "string",
-			"defaultValue": "cnabquickstarts.azurecr.io-porter-sql-server-always-on",
+			"defaultValue": "cnabquickstarts.azurecr.io-porter-hello-world",
 			"metadata": {
 				"description": "The name of the application instance."
 			}
@@ -110,17 +93,39 @@
 				"description": "The location in which the resources will be created."
 			}
 		},
-		"sql_masterkeypassword": {
+		"password": {
 			"type": "securestring",
+			"defaultValue": "",
 			"metadata": {
-				"description": "The Password for the SQL Server Master Key"
+				"description": "A secret password"
 			}
 		},
-		"sql_sapassword": {
-			"type": "securestring",
+		"person": {
+			"type": "string",
+			"defaultValue": "mike",
 			"metadata": {
-				"description": "The Password for the sa user in SQL Server"
+				"description": "The name of the person to say hello to"
+			},
+			"minLength": 1,
+			"maxLength": 20
+		},
+		"place_of_birth": {
+			"type": "string",
+			"allowedValues": [
+				"UK",
+				"USA"
+			],
+			"metadata": {
+				"description": "The person's place of birth"
 			}
+		},
+		"retirement_age": {
+			"type": "int",
+			"metadata": {
+				"description": "The retirement age of the person"
+			},
+			"minValue": 56,
+			"maxValue": 74
 		}
 	},
 	"resources": [
@@ -200,43 +205,27 @@
 								},
 								{
 									"name": "CNAB_BUNDLE_NAME",
-									"value": "cnabquickstarts.azurecr.io/porter/sql-server-always-on"
+									"value": "cnabquickstarts.azurecr.io/porter/hello-world"
 								},
 								{
-									"name": "AKS_CLUSTER_NAME",
-									"value": "[parameters('aks_cluster_name')]"
+									"name": "AGE",
+									"value": "[parameters('age')]"
 								},
 								{
-									"name": "AKS_RESOURCE_GROUP",
-									"value": "[parameters('aks_resource_group')]"
+									"name": "PERSON",
+									"value": "[parameters('person')]"
 								},
 								{
-									"name": "LOCATION",
-									"value": "[parameters('location')]"
+									"name": "PLACE_OF_BIRTH",
+									"value": "[parameters('place_of_birth')]"
 								},
 								{
-									"name": "AZURE_CLIENT_ID",
-									"secureValue": "[parameters('azure_client_id')]"
+									"name": "RETIREMENT_AGE",
+									"value": "[parameters('retirement_age')]"
 								},
 								{
-									"name": "AZURE_CLIENT_SECRET",
-									"secureValue": "[parameters('azure_client_secret')]"
-								},
-								{
-									"name": "AZURE_SUBSCRIPTION_ID",
-									"value": "[subscription().subscriptionId]"
-								},
-								{
-									"name": "AZURE_TENANT_ID",
-									"value": "[subscription().tenantId]"
-								},
-								{
-									"name": "SQL_MASTERKEYPASSWORD",
-									"secureValue": "[parameters('sql_masterkeypassword')]"
-								},
-								{
-									"name": "SQL_SAPASSWORD",
-									"secureValue": "[parameters('sql_sapassword')]"
+									"name": "PASSWORD",
+									"secureValue": "[parameters('password')]"
 								}
 							]
 						}
