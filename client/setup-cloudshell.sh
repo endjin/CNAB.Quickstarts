@@ -42,15 +42,5 @@ curl "https://github.com/${CNAB_AZURE_DRIVER_REPO}/releases/download/${CNAB_AZUR
 chmod +x "${TOOLHOME}/cnab-azure"
 echo "Installed cnab-azure driver"
 
-# Download script for generating credential and parameter files
-
-CNAB_QUICKSTARTS_REPO="${CNAB_QUICKSTARTS_REPO:-endjin/CNAB.Quickstarts}"
-CNAB_QUICKSTARTS_REPO_BRANCH="${CNAB_QUICKSTARTS_REPO_BRANCH:-master}"
-
-echo "Downloading Script to generate credential and parameter files (https://raw.githubusercontent.com/${CNAB_QUICKSTARTS_REPO}/${CNAB_QUICKSTARTS_REPO_BRANCH}/client/generate-cnab-param-and-cred-files.sh) to ${TOOLHOME}"
-curl "https://raw.githubusercontent.com/${CNAB_QUICKSTARTS_REPO}/${CNAB_QUICKSTARTS_REPO_BRANCH}/client/generate-cnab-param-and-cred-files.sh" -fLo "${TOOLHOME}/generate-cnab-param-and-cred-files.sh"
-chmod +x "${TOOLHOME}/generate-cnab-param-and-cred-files.sh"
-echo "Downloaded Script"
-
 
 echo "DONE"
