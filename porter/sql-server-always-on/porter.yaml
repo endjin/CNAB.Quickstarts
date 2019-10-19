@@ -1,20 +1,20 @@
 name: sql-server-always-on
-version: 0.4.2
+version: 0.4.3
 description: "SQL Server Always On for AKS"
 dockerfile: cnab/app/Dockerfile.base
-invocationImage: cnabquickstarts.azurecr.io/porter/sql-server-always-on:0.4.2
-tag: cnabquickstarts.azurecr.io/porter/sql-server-always-on/bundle:0.4.2
+invocationImage: cnabquickstarts.azurecr.io/porter/sql-server-always-on:0.4.3
+tag: cnabquickstarts.azurecr.io/porter/sql-server-always-on/bundle:0.4.3
 
 credentials:
 - name: azure_client_id
   env: AZURE_CLIENT_ID
-  description: AAD Client ID for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig - also if using ACI Driver  its used to authenticate to Azure for ACI creation to run bundle 
+  description: AAD Client ID for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig
 - name: azure_tenant_id
   env: AZURE_TENANT_ID
   description: Azure AAD Tenant Id for Azure account authentication - used to authenticate to Azure to get KubeConfig 
 - name: azure_client_secret
   env: AZURE_CLIENT_SECRET
-  description: AAD Client Secret for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig - also if using ACI Driver  its used to authenticate to Azure for ACI creation to run bundle 
+  description: AAD Client Secret for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig
 - name: sql_sapassword
   env: SQL_SAPASSWORD
   description: The Password for the sa user in SQL Server
