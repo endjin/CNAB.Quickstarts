@@ -1,0 +1,227 @@
+# See https://porter.sh/authoring-bundles for documentation on how to configure your bundle
+
+name: spring-music
+version: 0.5.0
+description: "Run the Spring Music Service on Kubernetes and Digital Ocean PostgreSQL"
+invocationImage: cnabquickstarts.azurecr.io/porter/spring-music:0.5.0
+tag: cnabquickstarts.azurecr.io/porter/spring-music/bundle:0.5.0
+
+dockerfile: Dockerfile.tmpl
+
+credentials:
+- name: do_access_token
+  description: "Access Token for Digital Ocean Account"
+  env: DO_ACCESS_TOKEN
+- name: do_spaces_key
+  description: "DO Spaces API Key"
+  env: DO_SPACES_KEY
+- name: do_spaces_secret
+  description: "DO Spaces API Secret"
+  env: DO_SPACES_SECRET
+- name: kubeconfig
+  description: "Kube config file with permissions to deploy app"
+  path: /root/.kube/config
+
+parameters:
+- name: region
+  description: "Region to create Database and DO Space"
+  type: string
+  default: "nyc3"
+- name: space_name
+  description: "Name for DO Space"
+  type: string
+  default: "jrrportertest"
+- name: database_name
+  description: "Name of database to create"
+  type: string
+  default: "jrrportertest"
+- name: node_count
+  type: integer
+  description: "Number of database nodes"
+  default: 1
+- name: namespace
+  description: "Namespace to install Spring Music app" 
+  type: string
+  default: "default"
+- name: helm_release
+  description: "Helm release name" 
+  type: string
+  default: "spring-music-helm"
+
+outputs:
+- name: service_ip
+  description: "IP Address assigned to the Load Balancer"
+  type: string
+
+mixins:
+  - exec
+  - helm
+  - terraform
+
+images:
+  spring-music:
+      description: "Spring Music Example"
+      imageType: "docker"
+      repository: "jeremyrickard/spring-music"
+      digest: "sha256:8f1133d81f1b078c865cdb11d17d1ff15f55c449d3eecca50190eed0f5e5e26f"
+
+install:
+  - exec:
+      description: "s3cmd create bucket"
+      command: s3cmd
+      arguments:
+        - mb
+        - "s3://{{bundle.parameters.space_name}}"
+        - "--access_key={{bundle.credentials.do_spaces_key}}"
+        - "--secret_key={{bundle.credentials.do_spaces_secret}}"
+        - "--host={{bundle.parameters.region}}.digitaloceanspaces.com"
+        - "--host-bucket=%(bucket)s.{{bundle.parameters.region}}.digitaloceanspaces.com"
+  - terraform:
+      description: "Create DO PostgreSQL With Terraform"
+      backendConfig:
+        key: "{{ bundle.name }}.tfstate"
+        access_key: "{{bundle.credentials.do_spaces_key}}"
+        secret_key: "{{bundle.credentials.do_spaces_secret}}"
+        bucket: "{{bundle.parameters.space_name}}"
+        endpoint: "{{bundle.parameters.region}}.digitaloceanspaces.com"
+      vars:
+        do_token: "{{bundle.credentials.do_access_token}}"
+        region: "{{bundle.parameters.region}}"
+        database_name: "{{bundle.parameters.database_name}}"
+        node_count: "{{bundle.parameters.node_count}}"
+      outputs:
+      - name: "db_host"
+      - name: "db_port"
+      - name: "db"
+      - name: "db_user"
+      - name: "db_password"
+  - helm:
+      description: "Deploy Spring Music with Helm"
+      name: "{{bundle.parameters.helm_release}}"
+      namespace: "{{bundle.parameters.namespace}}"
+      chart: charts/spring-music
+      replace: true
+      set:
+        deploy.image: "{{bundle.images.spring-music.repository}}@{{bundle.images.spring-music.digest}}"
+        deploy.profile: "postgresql"
+        deploy.db: "{{bundle.outputs.db}}"
+        deploy.db_user: "{{bundle.outputs.db_user}}"
+        deploy.db_password: "{{bundle.outputs.db_password}}"
+        deploy.db_host: "{{bundle.outputs.db_host}}"
+        deploy.db_port: "{{bundle.outputs.db_port}}"
+  - exec:
+      description: "Wait for IP"
+      command: "bash"
+      arguments:
+        - "waitForIP.sh"
+        - "spring-music"
+        - "{{bundle.parameters.namespace}}"
+  - exec:
+      description: "Get Ingress IP"
+      command: "kubectl"
+      arguments:
+        - "get"
+        - "service"
+        - "spring-music"
+      flags:
+        o: "json"
+        namespace: "{{bundle.parameters.namespace}}"
+      outputs:
+        - name: "service_ip"
+          jsonPath: "$.status.loadBalancer.ingress[0].ip"
+
+upgrade:
+  - terraform:
+      description: "Create DO PostgreSQL With Terraform"
+      backendConfig:
+        key: "{{ bundle.name }}.tfstate"
+        access_key: "{{bundle.credentials.do_spaces_key}}"
+        secret_key: "{{bundle.credentials.do_spaces_secret}}"
+        bucket: "{{bundle.parameters.space_name}}"
+        endpoint: "{{bundle.parameters.region}}.digitaloceanspaces.com"
+      vars:
+        do_token: "{{bundle.credentials.do_access_token}}"
+        region: "{{bundle.parameters.region}}"
+        database_name: "{{bundle.parameters.database_name}}"
+        node_count: "{{bundle.parameters.node_count}}"
+      outputs:
+      - name: "db_host"
+      - name: "db_port"
+      - name: "db"
+      - name: "db_user"
+      - name: "db_password"
+  - helm:
+      description: "Deploy Spring Music with Helm"
+      name: "{{bundle.parameters.helm_release}}"
+      namespace: "{{bundle.parameters.namespace}}"
+      chart: charts/spring-music
+      set:
+        deploy.image: "jeremyrickard/spring-music@sha256:8f1133d81f1b078c865cdb11d17d1ff15f55c449d3eecca50190eed0f5e5e26f"
+        deploy.profile: "postgresql"
+        deploy.db: "{{bundle.outputs.db}}"
+        deploy.db_user: "{{bundle.outputs.db_user}}"
+        deploy.db_password: "{{bundle.outputs.db_password}}"
+        deploy.db_host: "{{bundle.outputs.db_host}}"
+        deploy.db_port: "{{bundle.outputs.db_port}}"
+  - exec:
+      description: "Wait for IP"
+      command: "bash"
+      arguments:
+        - "waitForIP.sh"
+        - "spring-music"
+        - "{{bundle.parameters.namespace}}"
+  - exec:
+      description: "Get Ingress IP"
+      command: "kubectl"
+      arguments:
+        - "get"
+        - "service"
+        - "spring-music"
+      flags:
+        o: "json"
+        namespace: "{{bundle.parameters.namespace}}"
+      outputs:
+        - name: "service_ip"
+          jsonPath: "$.status.loadBalancer.ingress[0].ip"
+uninstall:
+  - helm:
+      description: "Deploy Spring Music with Helm"
+      purge: true
+      releases: 
+        - "{{bundle.parameters.helm_release}}"
+  - terraform:
+      description: "Create DO PostgreSQL With Terraform"
+      backendConfig:
+        key: "{{ bundle.name }}.tfstate"
+        access_key: "{{bundle.credentials.do_spaces_key}}"
+        secret_key: "{{bundle.credentials.do_spaces_secret}}"
+        bucket: "{{bundle.parameters.space_name}}"
+        endpoint: "{{bundle.parameters.region}}.digitaloceanspaces.com"
+      vars:
+        do_token: "{{bundle.credentials.do_access_token}}"
+        region: "{{bundle.parameters.region}}"
+        database_name: "{{bundle.parameters.database_name}}"
+        node_count: "{{bundle.parameters.node_count}}"
+  - exec:
+      description: "s3cmd delete bucket"
+      command: s3cmd
+      arguments:
+        - del
+        - "s3://{{bundle.parameters.space_name}}"
+        - "--recursive"
+        - "--force"
+        - "--access_key={{bundle.credentials.do_spaces_key}}"
+        - "--secret_key={{bundle.credentials.do_spaces_secret}}"
+        - "--host={{bundle.parameters.region}}.digitaloceanspaces.com"
+        - "--host-bucket=%(bucket)s.{{bundle.parameters.region}}.digitaloceanspaces.com"
+  - exec:
+      description: "s3cmd delete bucket"
+      command: s3cmd
+      arguments:
+        - rb
+        - "s3://{{bundle.parameters.space_name}}"
+        - "--force"
+        - "--access_key={{bundle.credentials.do_spaces_key}}"
+        - "--secret_key={{bundle.credentials.do_spaces_secret}}"
+        - "--host={{bundle.parameters.region}}.digitaloceanspaces.com"
+        - "--host-bucket=%(bucket)s.{{bundle.parameters.region}}.digitaloceanspaces.com"
