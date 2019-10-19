@@ -35,9 +35,63 @@
 				"description": "The name of the action to be performed on the application instance."
 			}
 		},
+		"cnab_azure_client_id": {
+			"type": "string",
+			"defaultValue": "",
+			"metadata": {
+				"description": "AAD Client ID for Azure account authentication - used to authenticate to Azure using Service Principal for ACI creation."
+			}
+		},
+		"cnab_azure_client_secret": {
+			"type": "securestring",
+			"defaultValue": "",
+			"metadata": {
+				"description": "AAD Client Secret for Azure account authentication - used to authenticate to Azure using Service Principal for ACI creation."
+			}
+		},
+		"cnab_azure_location": {
+			"type": "string",
+			"defaultValue": "[resourceGroup().Location]",
+			"allowedValues": [
+				"westus",
+				"eastus",
+				"westeurope",
+				"westus2",
+				"northeurope",
+				"southeastasia",
+				"eastus2",
+				"centralus",
+				"australiaeast",
+				"uksouth",
+				"southcentralus",
+				"centralindia",
+				"southindia",
+				"northcentralus",
+				"eastasia",
+				"canadacentral",
+				"japaneast"
+			],
+			"metadata": {
+				"description": "The location which the cnab-azure driver will use to create ACI."
+			}
+		},
+		"cnab_azure_subscription_id": {
+			"type": "string",
+			"defaultValue": "[subscription().subscriptionId]",
+			"metadata": {
+				"description": "Azure Subscription Id - this is the subscription to be used for ACI creation, if not specified the first (random) subscription is used."
+			}
+		},
+		"cnab_azure_tenant_id": {
+			"type": "string",
+			"defaultValue": "[subscription().tenantId]",
+			"metadata": {
+				"description": "Azure AAD Tenant Id Azure account authentication - used to authenticate to Azure using Service Principal or Device Code for ACI creation."
+			}
+		},
 		"cnab_installation_name": {
 			"type": "string",
-			"defaultValue": "cnabquickstarts.azurecr.io-porter-sql-server-always-on",
+			"defaultValue": "sql-server-always-on",
 			"metadata": {
 				"description": "The name of the application instance."
 			}
@@ -158,7 +212,7 @@
 					{
 						"name": "[parameters('containerName')]",
 						"properties": {
-							"image": "cnabquickstartstest.azurecr.io/simongdavies/run-duffle:latest",
+							"image": "cnabquickstarts.azurecr.io/cnabarmdriver:latest",
 							"resources": {
 								"requests": {
 									"cpu": "1.0",
@@ -175,12 +229,24 @@
 									"value": "[parameters('cnab_installation_name')]"
 								},
 								{
-									"name": "ACI_LOCATION",
-									"value": "[parameters('location')]"
+									"name": "CNAB_AZURE_LOCATION",
+									"value": "[parameters('cnab_azure_location')]"
 								},
 								{
-									"name": "AZURE_SUBSCRIPTION_ID",
-									"value": "[subscription().subscriptionId]"
+									"name": "CNAB_AZURE_CLIENT_ID",
+									"value": "[parameters('cnab_azure_client_id')]"
+								},
+								{
+									"name": "CNAB_AZURE_CLIENT_SECRET",
+									"secureValue": "[parameters('cnab_azure_client_secret')]"
+								},
+								{
+									"name": "CNAB_AZURE_SUBSCRIPTION_ID",
+									"value": "[parameters('cnab_azure_subscription_id')]"
+								},
+								{
+									"name": "CNAB_AZURE_TENANT_ID",
+									"value": "[parameters('cnab_azure_tenant_id')]"
 								},
 								{
 									"name": "CNAB_STATE_STORAGE_ACCOUNT_NAME",
@@ -200,26 +266,30 @@
 								},
 								{
 									"name": "CNAB_BUNDLE_NAME",
-									"value": "cnabquickstarts.azurecr.io/porter/sql-server-always-on"
+									"value": "sql-server-always-on"
 								},
 								{
-									"name": "AKS_CLUSTER_NAME",
+									"name": "CNAB_BUNDLE_TAG",
+									"value": "cnabquickstarts.azurecr.io/porter/sql-server-always-on/bundle:latest"
+								},
+								{
+									"name": "CNAB_PARAM_aks_cluster_name",
 									"value": "[parameters('aks_cluster_name')]"
 								},
 								{
-									"name": "AKS_RESOURCE_GROUP",
+									"name": "CNAB_PARAM_aks_resource_group",
 									"value": "[parameters('aks_resource_group')]"
 								},
 								{
-									"name": "LOCATION",
+									"name": "CNAB_PARAM_location",
 									"value": "[parameters('location')]"
 								},
 								{
-									"name": "AZURE_CLIENT_ID",
+									"name": "CNAB_CRED_azure_client_id",
 									"secureValue": "[parameters('azure_client_id')]"
 								},
 								{
-									"name": "AZURE_CLIENT_SECRET",
+									"name": "CNAB_CRED_azure_client_secret",
 									"secureValue": "[parameters('azure_client_secret')]"
 								},
 								{
@@ -231,11 +301,11 @@
 									"value": "[subscription().tenantId]"
 								},
 								{
-									"name": "SQL_MASTERKEYPASSWORD",
+									"name": "CNAB_CRED_sql_masterkeypassword",
 									"secureValue": "[parameters('sql_masterkeypassword')]"
 								},
 								{
-									"name": "SQL_SAPASSWORD",
+									"name": "CNAB_CRED_sql_sapassword",
 									"secureValue": "[parameters('sql_sapassword')]"
 								}
 							]
