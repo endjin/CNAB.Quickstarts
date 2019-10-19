@@ -18,14 +18,30 @@
 		},
 		"azure_client_id": {
 			"type": "securestring",
+			"defaultValue": "[parameters('cnab_azure_client_id')]",
 			"metadata": {
 				"description": "AAD Client ID for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig - also if using ACI Driver  its used to authenticate to Azure for ACI creation to run bundle"
 			}
 		},
 		"azure_client_secret": {
 			"type": "securestring",
+			"defaultValue": "[parameters('cnab_azure_client_secret')]",
 			"metadata": {
 				"description": "AAD Client Secret for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig - also if using ACI Driver  its used to authenticate to Azure for ACI creation to run bundle"
+			}
+		},
+		"azure_subscription_id": {
+			"type": "securestring",
+			"defaultValue": "[parameters('cnab_azure_subscription_id')]",
+			"metadata": {
+				"description": "Azure Subscription Id used to set the subscription where the account has access to multiple subscriptions"
+			}
+		},
+		"azure_tenant_id": {
+			"type": "securestring",
+			"defaultValue": "[parameters('cnab_azure_tenant_id')]",
+			"metadata": {
+				"description": "Azure AAD Tenant Id for Azure account authentication - used to authenticate to Azure to get KubeConfig"
 			}
 		},
 		"cnab_action": {
@@ -293,12 +309,12 @@
 									"secureValue": "[parameters('azure_client_secret')]"
 								},
 								{
-									"name": "AZURE_SUBSCRIPTION_ID",
-									"value": "[subscription().subscriptionId]"
+									"name": "CNAB_CRED_azure_subscription_id",
+									"secureValue": "[parameters('azure_subscription_id')]"
 								},
 								{
-									"name": "AZURE_TENANT_ID",
-									"value": "[subscription().tenantId]"
+									"name": "CNAB_CRED_azure_tenant_id",
+									"secureValue": "[parameters('azure_tenant_id')]"
 								},
 								{
 									"name": "CNAB_CRED_sql_masterkeypassword",
