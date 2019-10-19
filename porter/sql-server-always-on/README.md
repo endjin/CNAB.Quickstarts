@@ -20,8 +20,8 @@ Full details can be found [here](https://docs.microsoft.com/en-us/sql/linux/sql-
  | --- | --- | 
  | aks_cluster_name | The name to use for the AKS Cluster
 aks_resource_group | The name of the resource group to create the AKS Cluster in
-azure_client_id | AAD Client ID for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig - also if using ACI Driver  its used to authenticate to Azure for ACI creation to run bundle
-azure_client_secret | AAD Client Secret for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig - also if using ACI Driver  its used to authenticate to Azure for ACI creation to run bundle
+azure_client_id | AAD Client ID for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig
+azure_client_secret | AAD Client Secret for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig
 azure_subscription_id | Azure Subscription Id used to set the subscription where the account has access to multiple subscriptions
 azure_tenant_id | Azure AAD Tenant Id for Azure account authentication - used to authenticate to Azure to get KubeConfig
 location | The Location to create the resources in
