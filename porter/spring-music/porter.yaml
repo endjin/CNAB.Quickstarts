@@ -1,10 +1,10 @@
 # See https://porter.sh/authoring-bundles for documentation on how to configure your bundle
 
 name: spring-music
-version: 0.5.0
+version: 0.5.1
 description: "Run the Spring Music Service on Kubernetes and Digital Ocean PostgreSQL"
-invocationImage: cnabquickstarts.azurecr.io/porter/spring-music:0.5.0
-tag: cnabquickstarts.azurecr.io/porter/spring-music/bundle:0.5.0
+invocationImage: cnabquickstarts.azurecr.io/porter/spring-music:0.5.1
+tag: cnabquickstarts.azurecr.io/porter/spring-music/bundle:0.5.1
 
 dockerfile: Dockerfile.tmpl
 
