@@ -147,7 +147,7 @@
 		"kubeconfig": {
 			"type": "securestring",
 			"metadata": {
-				"description": "Kube config file with permissions to deploy app"
+				"description": "Kube config file with permissions to deploy app (Enter base64 encoded representation of file)"
 			}
 		},
 		"location": {
@@ -240,7 +240,7 @@
 					{
 						"name": "[parameters('containerName')]",
 						"properties": {
-							"image": "cnabquickstarts.azurecr.io/cnabarmdriver:latest",
+							"image": "cnabquickstarts.azurecr.io/cnabarmdriver:0.15.0",
 							"resources": {
 								"requests": {
 									"cpu": "1.0",
@@ -298,7 +298,7 @@
 								},
 								{
 									"name": "CNAB_BUNDLE_TAG",
-									"value": "cnabquickstarts.azurecr.io/porter/spring-music/bundle:0.5.0-pull-8-merge0001"
+									"value": "cnabquickstarts.azurecr.io/porter/spring-music/bundle:0.5.1-pull-8-merge0001"
 								},
 								{
 									"name": "CNAB_PARAM_database_name",
@@ -337,7 +337,7 @@
 									"secureValue": "[parameters('do_spaces_secret')]"
 								},
 								{
-									"name": "CNAB_CRED_kubeconfig",
+									"name": "CNAB_CRED_FILE_kubeconfig",
 									"secureValue": "[parameters('kubeconfig')]"
 								}
 							]
