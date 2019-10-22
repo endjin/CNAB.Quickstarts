@@ -1,9 +1,9 @@
 name: sql-server-always-on
-version: 0.4.6
+version: 0.4.7
 description: "SQL Server Always On for AKS"
 dockerfile: cnab/app/Dockerfile.base
-invocationImage: cnabquickstarts.azurecr.io/porter/sql-server-always-on:0.4.6
-tag: cnabquickstarts.azurecr.io/porter/sql-server-always-on/bundle:0.4.6
+invocationImage: cnabquickstarts.azurecr.io/porter/sql-server-always-on:0.4.7
+tag: cnabquickstarts.azurecr.io/porter/sql-server-always-on/bundle:0.4.7
 
 credentials:
 - name: azure_client_id
@@ -38,9 +38,9 @@ parameters:
   description: The name to use for the AKS Cluster
   destination:
     env: AKS_CLUSTER_NAME
-- name: location
+- name: azure_location
   type: string
-  description: The Location to create the resources in
+  description: The Azure location to create the resources in
   destination:
     env: LOCATION
     
@@ -59,7 +59,7 @@ install:
         clusterName: "{{ bundle.parameters.aks_cluster_name }}"
         servicePrincipalClientId: "{{ bundle.credentials.azure_client_id}}"
         servicePrincipalClientSecret: "{{ bundle.credentials.azure_client_secret}}"
-        location: "{{ bundle.parameters.location }}"
+        location: "{{ bundle.parameters.azure_location }}"
         agentCount: 4
         kubernetesVersion: 1.14.6
 
