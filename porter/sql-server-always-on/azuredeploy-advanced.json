@@ -246,7 +246,7 @@
 					{
 						"name": "[variables('containerName')]",
 						"properties": {
-							"image": "cnabquickstarts.azurecr.io/cnabarmdriver:0.18.0",
+							"image": "cnabquickstarts.azurecr.io/cnabarmdriver:0.19.0",
 							"resources": {
 								"requests": {
 									"cpu": "1.0",

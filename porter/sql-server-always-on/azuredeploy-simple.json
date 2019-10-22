@@ -101,7 +101,7 @@
 					{
 						"name": "[variables('containerName')]",
 						"properties": {
-							"image": "cnabquickstarts.azurecr.io/cnabarmdriver:0.18.0",
+							"image": "cnabquickstarts.azurecr.io/cnabarmdriver:0.19.0",
 							"resources": {
 								"requests": {
 									"cpu": "1.0",
@@ -175,7 +175,7 @@
 								},
 								{
 									"name": "CNAB_PARAM_azure_location",
-									"value": "[parameters('azure_location')]"
+									"value": "[variables('cnab_azure_location')]"
 								},
 								{
 									"name": "CNAB_CRED_azure_client_id",
