@@ -62,8 +62,8 @@
 		"cnab_state_storage_account_key": "",
 		"cnab_state_storage_account_name": "[concat('cnabstate',uniqueString(resourceGroup().id))]",
 		"cnab_state_storage_account_resource_group": "[resourceGroup().name]",
-		"containerGroupName": "[concat('cg-',uniqueString(resourceGroup().id, newGuid()))]",
-		"containerName": "[concat('cn-',uniqueString(resourceGroup().id, newGuid()))]",
+		"containerGroupName": "[concat('cg-',uniqueString(resourceGroup().id, 'sql-server-always-on', 'cnabquickstarts.azurecr.io/porter/sql-server-always-on/bundle:latest'))]",
+		"containerName": "[concat('cn-',uniqueString(resourceGroup().id, 'sql-server-always-on', 'cnabquickstarts.azurecr.io/porter/sql-server-always-on/bundle:latest'))]",
 		"location": "[resourceGroup().Location]"
 	},
 	"resources": [
@@ -101,7 +101,7 @@
 					{
 						"name": "[variables('containerName')]",
 						"properties": {
-							"image": "cnabquickstarts.azurecr.io/cnabarmdriver:0.16.0",
+							"image": "cnabquickstarts.azurecr.io/cnabarmdriver:0.17.0",
 							"resources": {
 								"requests": {
 									"cpu": "1.0",
