@@ -51,6 +51,7 @@
 		}
 	},
 	"variables": {
+		"aci_location": "[resourceGroup().Location]",
 		"cnab_action": "[parameters('cnab_action')]",
 		"cnab_azure_client_id": "[parameters('cnab_azure_client_id')]",
 		"cnab_azure_client_secret": "[parameters('cnab_azure_client_secret')]",
@@ -63,8 +64,7 @@
 		"cnab_state_storage_account_name": "[concat('cnabstate',uniqueString(resourceGroup().id))]",
 		"cnab_state_storage_account_resource_group": "[resourceGroup().name]",
 		"containerGroupName": "[concat('cg-',uniqueString(resourceGroup().id, 'sql-server-always-on', 'cnabquickstarts.azurecr.io/porter/sql-server-always-on/bundle:latest'))]",
-		"containerName": "[concat('cn-',uniqueString(resourceGroup().id, 'sql-server-always-on', 'cnabquickstarts.azurecr.io/porter/sql-server-always-on/bundle:latest'))]",
-		"location": "[resourceGroup().Location]"
+		"containerName": "[concat('cn-',uniqueString(resourceGroup().id, 'sql-server-always-on', 'cnabquickstarts.azurecr.io/porter/sql-server-always-on/bundle:latest'))]"
 	},
 	"resources": [
 		{
@@ -72,7 +72,7 @@
 			"type": "Microsoft.Storage/storageAccounts",
 			"name": "[variables('cnab_state_storage_account_name')]",
 			"apiVersion": "2019-04-01",
-			"location": "[variables('location')]",
+			"location": "[variables('aci_location')]",
 			"sku": {
 				"name": "Standard_LRS"
 			},
@@ -92,7 +92,7 @@
 			"type": "Microsoft.ContainerInstance/containerGroups",
 			"name": "[variables('containerGroupName')]",
 			"apiVersion": "2018-10-01",
-			"location": "[variables('location')]",
+			"location": "[variables('aci_location')]",
 			"dependsOn": [
 				"[variables('cnab_state_storage_account_name')]"
 			],
@@ -101,7 +101,7 @@
 					{
 						"name": "[variables('containerName')]",
 						"properties": {
-							"image": "cnabquickstarts.azurecr.io/cnabarmdriver:0.17.0",
+							"image": "cnabquickstarts.azurecr.io/cnabarmdriver:0.18.0",
 							"resources": {
 								"requests": {
 									"cpu": "1.0",
@@ -174,8 +174,8 @@
 									"value": "[parameters('aks_resource_group')]"
 								},
 								{
-									"name": "CNAB_PARAM_location",
-									"value": "[parameters('location')]"
+									"name": "CNAB_PARAM_azure_location",
+									"value": "[parameters('azure_location')]"
 								},
 								{
 									"name": "CNAB_CRED_azure_client_id",

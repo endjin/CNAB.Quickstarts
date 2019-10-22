@@ -1,10 +1,13 @@
 # SQL Server Always On for AKS
 
 ## Simple deployment
+
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fendjin%2FCNAB.Quickstarts%2Fmaster%2Fporter%2Fsql-server-always-on%2Fazuredeploy-simple.json" target="_blank"><img src="https://raw.githubusercontent.com/endjin/CNAB.Quickstarts/master/images/Deploy-from-Azure.png"/></a>
+
 ## Advanced deployment
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fendjin%2FCNAB.Quickstarts%2Fmaster%2Fporter%2Fsql-server-always-on%2Fazuredeploy-advanced.json" target="_blank"><img src="https://raw.githubusercontent.com/endjin/CNAB.Quickstarts/master/images/Deploy-from-Azure.png"/></a>
+
 This Bundle installs a SQL Server always on availability group on a new AKS Cluster, on install it will:
 
 * Create a new AKS Cluster
@@ -25,9 +28,9 @@ Full details can be found [here](https://docs.microsoft.com/en-us/sql/linux/sql-
 aks_resource_group | The name of the resource group to create the AKS Cluster in
 azure_client_id | AAD Client ID for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig
 azure_client_secret | AAD Client Secret for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig
+azure_location | The Azure location to create the resources in
 azure_subscription_id | Azure Subscription Id used to set the subscription where the account has access to multiple subscriptions
 azure_tenant_id | Azure AAD Tenant Id for Azure account authentication - used to authenticate to Azure to get KubeConfig
-location | The Location to create the resources in
 porter-debug | Print debug information from Porter when executing the bundle
 sql_masterkeypassword | The Password for the SQL Server Master Key
 sql_sapassword | The Password for the sa user in SQL Server | 
