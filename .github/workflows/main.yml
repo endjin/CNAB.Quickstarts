@@ -132,7 +132,7 @@ jobs:
 
       - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true'
         name: Commit & push ARM template & readme (if updated)
-        uses: endjin/git-auto-commit-action@master
+        uses: endjin/CNAB.ARM-Converter.GitHub.Actions/git-commit-updates-action@master
         with:
           add_path_spec: '${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/README.md ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/azuredeploy-simple.json ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/azuredeploy-advanced.json'
           commit_message: "Update ARM template / readme for bundle '${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}'"
