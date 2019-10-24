@@ -318,7 +318,7 @@
 								},
 								{
 									"name": "CNAB_BUNDLE_TAG",
-									"value": "cnabquickstarts.azurecr.io/porter/spring-music/bundle:0-5.1-pull-8-merge.1-104"
+									"value": "cnabquickstarts.azurecr.io/porter/spring-music/bundle:0-5.1-pull-8-merge.1-108"
 								},
 								{
 									"name": "CNAB_PARAM_database_name",

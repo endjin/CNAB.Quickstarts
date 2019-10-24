@@ -103,8 +103,8 @@
 		"cnab_state_storage_account_key": "",
 		"cnab_state_storage_account_name": "[concat('cnabstate',uniqueString(resourceGroup().id))]",
 		"cnab_state_storage_account_resource_group": "[resourceGroup().name]",
-		"containerGroupName": "[concat('cg-',uniqueString(resourceGroup().id, 'spring-music', 'cnabquickstarts.azurecr.io/porter/spring-music/bundle:0-5.1-pull-8-merge.1-104'))]",
-		"containerName": "[concat('cn-',uniqueString(resourceGroup().id, 'spring-music', 'cnabquickstarts.azurecr.io/porter/spring-music/bundle:0-5.1-pull-8-merge.1-104'))]"
+		"containerGroupName": "[concat('cg-',uniqueString(resourceGroup().id, 'spring-music', 'cnabquickstarts.azurecr.io/porter/spring-music/bundle:0-5.1-pull-8-merge.1-108'))]",
+		"containerName": "[concat('cn-',uniqueString(resourceGroup().id, 'spring-music', 'cnabquickstarts.azurecr.io/porter/spring-music/bundle:0-5.1-pull-8-merge.1-108'))]"
 	},
 	"resources": [
 		{
@@ -203,7 +203,7 @@
 								},
 								{
 									"name": "CNAB_BUNDLE_TAG",
-									"value": "cnabquickstarts.azurecr.io/porter/spring-music/bundle:0-5.1-pull-8-merge.1-104"
+									"value": "cnabquickstarts.azurecr.io/porter/spring-music/bundle:0-5.1-pull-8-merge.1-108"
 								},
 								{
 									"name": "CNAB_PARAM_database_name",
