@@ -54,12 +54,19 @@ jobs:
           manifest_path: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/porter.yaml
 
       - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter'
-        name: Install latest version of Porter
+        name: Detect Porter mixins from manifest
+        id: detect_porter_mixins
+        uses: endjin/CNAB.Quickstarts.GitHub.Actions/detect-porter-mixins@master
+        with:
+          manifest_path: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/porter.yaml
+
+      - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter'
+        name: Install latest version of Porter and mixins
         id: install_porter
         uses: endjin/CNAB.Quickstarts.GitHub.Actions/install-porter@master
         with:
           porter_version: v0.17.1-beta.1
-          mixins: exec,kubernetes,helm,azure,terraform # TODO: infer from porter manifest
+          mixins: ${{ steps.detect_porter_mixins.outputs.mixins }}
 
       - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true' && steps.validate_and_detect_qs_changes.outputs.quickstart_tool == 'porter'
         name: Patch version and registry for bundle and invocation image
