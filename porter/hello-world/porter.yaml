@@ -4,10 +4,10 @@
 # Uncomment out the sections below to take full advantage of what Porter can do!
 
 name: hello-world
-version: 1.0.5
+version: 1.0.6
 description: "An example Porter configuration"
-invocationImage: cnabquickstarts.azurecr.io/porter/hello-world:1.0.5
-tag: cnabquickstarts.azurecr.io/porter/hello-world/bundle:1.0.5
+invocationImage: cnabquickstarts.azurecr.io/porter/hello-world:1.0.6
+tag: cnabquickstarts.azurecr.io/porter/hello-world/bundle:1.0.6
 
 credentials:
 - name: password
