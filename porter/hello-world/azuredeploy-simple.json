@@ -80,8 +80,8 @@
 		"cnab_state_storage_account_key": "",
 		"cnab_state_storage_account_name": "[concat('cnabstate',uniqueString(resourceGroup().id))]",
 		"cnab_state_storage_account_resource_group": "[resourceGroup().name]",
-		"containerGroupName": "[concat('cg-',uniqueString(resourceGroup().id, 'hello-world', 'cnabquickstarts.azurecr.io/porter/hello-world/bundle:1-0.7-pull-10-merge.1-96'))]",
-		"containerName": "[concat('cn-',uniqueString(resourceGroup().id, 'hello-world', 'cnabquickstarts.azurecr.io/porter/hello-world/bundle:1-0.7-pull-10-merge.1-96'))]"
+		"containerGroupName": "[concat('cg-',uniqueString(resourceGroup().id, 'hello-world', 'cnabquickstarts.azurecr.io/porter/hello-world/bundle:1-0.10-pull-10-merge.1-103'))]",
+		"containerName": "[concat('cn-',uniqueString(resourceGroup().id, 'hello-world', 'cnabquickstarts.azurecr.io/porter/hello-world/bundle:1-0.10-pull-10-merge.1-103'))]"
 	},
 	"resources": [
 		{
@@ -180,7 +180,7 @@
 								},
 								{
 									"name": "CNAB_BUNDLE_TAG",
-									"value": "cnabquickstarts.azurecr.io/porter/hello-world/bundle:1-0.7-pull-10-merge.1-96"
+									"value": "cnabquickstarts.azurecr.io/porter/hello-world/bundle:1-0.10-pull-10-merge.1-103"
 								},
 								{
 									"name": "CNAB_PARAM_age",
