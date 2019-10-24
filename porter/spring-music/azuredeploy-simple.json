@@ -1,0 +1,263 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"cnab_action": {
+			"type": "string",
+			"defaultValue": "install",
+			"metadata": {
+				"description": "The name of the action to be performed on the application instance."
+			}
+		},
+		"cnab_azure_client_id": {
+			"type": "string",
+			"defaultValue": "",
+			"metadata": {
+				"description": "AAD Client ID for Azure account authentication - used to authenticate to Azure using Service Principal for ACI creation."
+			}
+		},
+		"cnab_azure_client_secret": {
+			"type": "securestring",
+			"defaultValue": "",
+			"metadata": {
+				"description": "AAD Client Secret for Azure account authentication - used to authenticate to Azure using Service Principal for ACI creation."
+			}
+		},
+		"database_name": {
+			"type": "string",
+			"defaultValue": "jrrportertest",
+			"metadata": {
+				"description": "Name of database to create"
+			}
+		},
+		"do_access_token": {
+			"type": "securestring",
+			"metadata": {
+				"description": "Access Token for Digital Ocean Account"
+			}
+		},
+		"do_spaces_key": {
+			"type": "securestring",
+			"metadata": {
+				"description": "DO Spaces API Key"
+			}
+		},
+		"do_spaces_secret": {
+			"type": "securestring",
+			"metadata": {
+				"description": "DO Spaces API Secret"
+			}
+		},
+		"helm_release": {
+			"type": "string",
+			"defaultValue": "spring-music-helm",
+			"metadata": {
+				"description": "Helm release name"
+			}
+		},
+		"kubeconfig": {
+			"type": "securestring",
+			"metadata": {
+				"description": "Kube config file with permissions to deploy app (Enter base64 encoded representation of file)"
+			}
+		},
+		"namespace": {
+			"type": "string",
+			"defaultValue": "default",
+			"metadata": {
+				"description": "Namespace to install Spring Music app"
+			}
+		},
+		"node_count": {
+			"type": "int",
+			"defaultValue": 1,
+			"metadata": {
+				"description": "Number of database nodes"
+			}
+		},
+		"region": {
+			"type": "string",
+			"defaultValue": "nyc3",
+			"metadata": {
+				"description": "Region to create Database and DO Space"
+			}
+		},
+		"space_name": {
+			"type": "string",
+			"defaultValue": "jrrportertest",
+			"metadata": {
+				"description": "Name for DO Space"
+			}
+		}
+	},
+	"variables": {
+		"aci_location": "[resourceGroup().Location]",
+		"cnab_action": "[parameters('cnab_action')]",
+		"cnab_azure_client_id": "[parameters('cnab_azure_client_id')]",
+		"cnab_azure_client_secret": "[parameters('cnab_azure_client_secret')]",
+		"cnab_azure_location": "[resourceGroup().Location]",
+		"cnab_azure_subscription_id": "[subscription().subscriptionId]",
+		"cnab_azure_tenant_id": "[subscription().tenantId]",
+		"cnab_installation_name": "spring-music",
+		"cnab_state_share_name": "spring-music",
+		"cnab_state_storage_account_key": "",
+		"cnab_state_storage_account_name": "[concat('cnabstate',uniqueString(resourceGroup().id))]",
+		"cnab_state_storage_account_resource_group": "[resourceGroup().name]",
+		"containerGroupName": "[concat('cg-',uniqueString(resourceGroup().id, 'spring-music', 'cnabquickstarts.azurecr.io/porter/spring-music/bundle:0-5.1-pull-8-merge.1-104'))]",
+		"containerName": "[concat('cn-',uniqueString(resourceGroup().id, 'spring-music', 'cnabquickstarts.azurecr.io/porter/spring-music/bundle:0-5.1-pull-8-merge.1-104'))]"
+	},
+	"resources": [
+		{
+			"condition": "[equals(variables('cnab_state_storage_account_resource_group'),resourceGroup().name)]",
+			"type": "Microsoft.Storage/storageAccounts",
+			"name": "[variables('cnab_state_storage_account_name')]",
+			"apiVersion": "2019-04-01",
+			"location": "[variables('aci_location')]",
+			"sku": {
+				"name": "Standard_LRS"
+			},
+			"kind": "StorageV2",
+			"properties": {
+				"encryption": {
+					"keySource": "Microsoft.Storage",
+					"services": {
+						"file": {
+							"enabled": true
+						}
+					}
+				}
+			}
+		},
+		{
+			"type": "Microsoft.ContainerInstance/containerGroups",
+			"name": "[variables('containerGroupName')]",
+			"apiVersion": "2018-10-01",
+			"location": "[variables('aci_location')]",
+			"dependsOn": [
+				"[variables('cnab_state_storage_account_name')]"
+			],
+			"properties": {
+				"containers": [
+					{
+						"name": "[variables('containerName')]",
+						"properties": {
+							"image": "cnabquickstarts.azurecr.io/cnabarmdriver:0.19.0",
+							"resources": {
+								"requests": {
+									"cpu": "1.0",
+									"memoryInGb": "1.5"
+								}
+							},
+							"environmentVariables": [
+								{
+									"name": "CNAB_ACTION",
+									"value": "[variables('cnab_action')]"
+								},
+								{
+									"name": "CNAB_INSTALLATION_NAME",
+									"value": "[variables('cnab_installation_name')]"
+								},
+								{
+									"name": "CNAB_AZURE_LOCATION",
+									"value": "[variables('cnab_azure_location')]"
+								},
+								{
+									"name": "CNAB_AZURE_CLIENT_ID",
+									"value": "[variables('cnab_azure_client_id')]"
+								},
+								{
+									"name": "CNAB_AZURE_CLIENT_SECRET",
+									"secureValue": "[variables('cnab_azure_client_secret')]"
+								},
+								{
+									"name": "CNAB_AZURE_SUBSCRIPTION_ID",
+									"value": "[variables('cnab_azure_subscription_id')]"
+								},
+								{
+									"name": "CNAB_AZURE_TENANT_ID",
+									"value": "[variables('cnab_azure_tenant_id')]"
+								},
+								{
+									"name": "CNAB_STATE_STORAGE_ACCOUNT_NAME",
+									"value": "[variables('cnab_state_storage_account_name')]"
+								},
+								{
+									"name": "CNAB_STATE_STORAGE_ACCOUNT_KEY",
+									"secureValue": "[variables('cnab_state_storage_account_key')]"
+								},
+								{
+									"name": "CNAB_STATE_STORAGE_ACCOUNT_RESOURCE_GROUP",
+									"value": "[variables('cnab_state_storage_account_resource_group')]"
+								},
+								{
+									"name": "CNAB_STATE_SHARE_NAME",
+									"value": "[variables('cnab_state_share_name')]"
+								},
+								{
+									"name": "VERBOSE",
+									"value": "false"
+								},
+								{
+									"name": "CNAB_BUNDLE_NAME",
+									"value": "spring-music"
+								},
+								{
+									"name": "CNAB_BUNDLE_TAG",
+									"value": "cnabquickstarts.azurecr.io/porter/spring-music/bundle:0-5.1-pull-8-merge.1-104"
+								},
+								{
+									"name": "CNAB_PARAM_database_name",
+									"value": "[parameters('database_name')]"
+								},
+								{
+									"name": "CNAB_PARAM_helm_release",
+									"value": "[parameters('helm_release')]"
+								},
+								{
+									"name": "CNAB_PARAM_namespace",
+									"value": "[parameters('namespace')]"
+								},
+								{
+									"name": "CNAB_PARAM_node_count",
+									"value": "[parameters('node_count')]"
+								},
+								{
+									"name": "CNAB_PARAM_region",
+									"value": "[parameters('region')]"
+								},
+								{
+									"name": "CNAB_PARAM_space_name",
+									"value": "[parameters('space_name')]"
+								},
+								{
+									"name": "CNAB_CRED_do_access_token",
+									"secureValue": "[parameters('do_access_token')]"
+								},
+								{
+									"name": "CNAB_CRED_do_spaces_key",
+									"secureValue": "[parameters('do_spaces_key')]"
+								},
+								{
+									"name": "CNAB_CRED_do_spaces_secret",
+									"secureValue": "[parameters('do_spaces_secret')]"
+								},
+								{
+									"name": "CNAB_CRED_FILE_kubeconfig",
+									"secureValue": "[parameters('kubeconfig')]"
+								}
+							]
+						}
+					}
+				],
+				"osType": "Linux",
+				"restartPolicy": "Never"
+			}
+		}
+	],
+	"outputs": {
+		"CNAB Package Action Logs Command": {
+			"type": "string",
+			"value": "[concat('az container logs -g ',resourceGroup().name,' -n ',variables('containerGroupName'),'  --container-name ',variables('containerName'), ' --follow')]"
+		}
+	}
+}
