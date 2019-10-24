@@ -295,7 +295,7 @@
 								},
 								{
 									"name": "CNAB_BUNDLE_TAG",
-									"value": "cnabquickstarts.azurecr.io/porter/hello-world/bundle:1-0.10-pull-10-merge.1-103"
+									"value": "cnabquickstarts.azurecr.io/porter/hello-world/bundle:1-0.11-pull-10-merge.1-105"
 								},
 								{
 									"name": "CNAB_PARAM_age",
