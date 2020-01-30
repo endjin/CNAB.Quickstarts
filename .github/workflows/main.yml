@@ -130,7 +130,7 @@ jobs:
       - if: steps.validate_and_detect_qs_changes.outputs.build_is_required == 'true'
         name: Generate quickstart solution readme
         id: generate_readme
-        uses: endjin/CNAB.ARM-Converter.GitHub.Actions/generate-readme@v1
+        uses: endjin/CNAB.ARM-Converter.GitHub.Actions/generate-readme@master
         with:
           bundle_metadata_path: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/.cnab/bundle.json
           instructions_path: ${{ steps.validate_and_detect_qs_changes.outputs.quickstart_solution_path }}/INSTRUCTIONS.md

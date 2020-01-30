@@ -1,0 +1,58 @@
+name: airflow
+version: 0.1.0
+description: "Apache Airflow on Kubernetes"
+invocationImage: cnabquickstarts.azurecr.io/porter/airflow:0.1.0
+tag: cnabquickstarts.azurecr.io/porter/airflow/bundle:0.1.0
+
+credentials:
+  - name: kubeconfig
+    path: /root/.kube/config
+
+parameters:
+  - name: namespace
+    type: string
+    default: ''
+  - name: airflow_name
+    type: string
+    default: airflow01
+  - name: host
+    type: string
+  - name: ingress_class
+    type: string
+    default: addon-http-application-routing
+
+mixins:
+  - exec
+  - helm
+
+install:
+  - helm:
+      description: "Install Airflow"
+      name: "{{ bundle.parameters.airflow_name }}"
+      chart: stable/airflow
+      namespace: "{{ bundle.parameters.namespace }}"
+      replace: true
+      set:
+        ingress.enabled: true
+        ingress.web.path: /airflow
+        ingress.web.host: '{{ bundle.parameters.airflow_name }}.{{ bundle.parameters.host }}'
+        ingress.web.annotations."kubernetes\.io/ingress\.class": '{{ bundle.parameters.ingress_class }}'
+
+upgrade:
+  - helm:
+      description: "Upgrade Airflow"
+      name: "{{ bundle.parameters.airflow_name }}"
+      chart: stable/airflow
+      namespace: "{{ bundle.parameters.namespace }}"
+      set:
+        ingress.enabled: true
+        ingress.web.path: /airflow
+        ingress.web.host: '{{ bundle.parameters.airflow_name }}.{{ bundle.parameters.host }}'
+        ingress.web.annotations."kubernetes\.io/ingress\.class": '{{ bundle.parameters.ingress_class }}'
+
+uninstall:
+  - helm:
+      description: "Uninstall Airflow"
+      purge: true
+      releases:
+        - "{{ bundle.parameters.airflow_name }}"
